@@ -66,7 +66,7 @@ pair<double, double> kruskal(ve edges, Mapping table, int N, int R, int M) {
             int w = edges[i].first;
             if (w <= R) A += w;
             else B += w;
-        } 
+        }
     }
     return pair<double, double>(A, B);
 }
@@ -80,13 +80,13 @@ int main(void) {
         int N, R, M, U, V;
         scanf("%d %d %d %d %d", &N, &R, &M, &U, &V);
         vn nodes;
-        Mapping table; 
+        Mapping table;
         for (int j = 0; j < N; j++) {
             int x, y;
             scanf("%d %d", &x, &y);
             nodes.push_back(Node(x,y));
             table[Node(x,y)] = j;
-        } 
+        }
         ve edges;
         for (int j = 0; j < N; j++) {
             for (int k = j+1; k < N; k++) {

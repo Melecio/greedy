@@ -2,67 +2,133 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <map>
 using namespace std;
 
-typedef vector< vector<int> > graph;
+typedef pair<int, int> Edge;
+typedef vector<Edge> ve;
+typedef vector<int> vi;
+typedef map<int, int> Mapping;
+typedef Mapping::iterator mit;
+
+
+class UnionFind {
+    private: vi rep, rank, sizeOf;
+             int numSets;
+             Mapping table;
+    public:
+        UnionFind(int n) {
+            rep.assign(n, 0);
+            for (int i = 0; i < n; i++) rep[i] = i;
+            sizeOf.assign(n, 1);
+            rank.assign(n, 0);
+            numSets = n;
+        }
+        void unionSets(int i, int j) {
+
+
+            if (! isSameSet(i, j)) {
+                numSets--;
+                int x = findSet(i), y = findSet(j);
+                if (rank[x] > rank[y]) {
+                    rep[y] = x;
+                    sizeOf[x] += sizeOf[y];
+                    table[x] = sizeOf[x];
+                    if (table.find(y) != table.end())
+                        table.erase(table.find(y));
+                } else {
+                    rep[x] = y;
+                    sizeOf[y] += sizeOf[x];
+                    if (rank[x] == rank[y]) rank[y]++;
+
+                    table[y] = sizeOf[y];
+                    if (table.find(x) != table.end())
+                        table.erase(table.find(x));
+                }
+            }
+        }
+        int findSet(int i) { return (rep[i] == i) ? i : rep[i] = findSet(rep[i]); }
+        bool isSameSet(int i, int j) { return findSet(i) == findSet(j); }
+        int getNumSets() { return numSets; }
+        Mapping getTable() { return table; }
+};
+
+
+int query(int N, Mapping table) {
+    // The number of all possible edges in a graph given N nodes is determined
+    // by the
+    int discon = (N*(N-1))/2;
+
+    for (mit it = table.begin(); it != table.end(); it++) {
+        int nodes = it->second;
+        int edges = nodes*(nodes - 1)/2;
+        discon -= edges;
+    }
+
+    return discon;
+}
+
+void remove(int index, ve &edges) {
+    edges.erase(edges.begin()+index-1);
+}
+
+Mapping process_edges(ve edges, int N) {
+   UnionFind set(N);
+
+   for (int i = 0; i < edges.size(); ++i) {
+        if (! set.isSameSet(edges[i].first, edges[i].second)) {
+            set.unionSets(edges[i].first, edges[i].second);
+        }
+   }
+
+   return set.getTable();
+}
+
 
 int main(void) {
     int cases;
 
     scanf("%d", &cases);
-    getchar(); // Ignore blank line
-    // printf("Numero de casos: %d\n", cases);
+    getchar();  // Ignore blank line
 
     while (cases--) {
-        getchar(); // Ignore blank line
+        getchar();  // Ignore blank line
         int offs;
         scanf("%d", &offs);
-        // printf("Numero de oficinas: %d\n", offs);
 
-        graph adylist;
-        adylist.assign(offs+1, vector<int>());
+        ve adylist;
 
         for (int i = 0; i < offs-1; ++i) {
-            int x,y;
+            int x, y;
             scanf("%d %d", &x, &y);
-            adylist[x].push_back(y);
-            adylist[y].push_back(x);
+            adylist.push_back(pair<int, int>(x, y));
         }
 
-        for (int i = 1; i < adylist.size(); ++i) {
-            sort(adylist[i].begin(), adylist[i].end());
-        }
-
-
-        // printf("------------------\n");
-        // for (int i = 1; i < adylist.size(); ++i) {
-        //     for (int j = 0; j < adylist[i].size(); ++j) {
-        //         printf("Conexion: %d %d\n", i, adylist[i][j]);
-        //     }
-        // }
-        // printf("------------------\n");
+        UnionFind set(offs);
+        // std::cout << "-------------------" << std::endl;
+        // process_edges(adylist, offs, table);
+        // std::cout << "-------------------" << std::endl;
 
         int queries;
         scanf("%d", &queries);
         getchar();
-        // printf("Queries: %d\n", queries);
 
-        while(queries--) {
+        while (queries--) {
             char q;
             scanf("%c", &q);
-            // printf("query: %c\n", q);
 
             if (q == 'R') {
                 int del;
                 scanf("%d", &del);
-                // printf("%d\n", del);
+                remove(del, adylist);
             } else {
-                // imprimir unreachable
+                Mapping table = process_edges(adylist, offs);
+                int rest = query(offs, table);
+                printf("%d\n", rest);
             }
             getchar();
         }
+        if (cases >= 1) printf("\n");
     }
-
-
 }
 
