@@ -96,7 +96,7 @@ int main(void) {
         }
         sort(edges.begin(), edges.end(), &compare);
         pair<double, double> lines = kruskal(edges, table, N, R, M);
-        printf("%.3lf %.3lf\n", lines.first * U, lines.second * V);
+        printf("Caso #%d: %.3lf %.3lf\n", i, lines.first * U, lines.second * V);
     }
     return 0;
 }
