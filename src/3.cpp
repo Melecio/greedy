@@ -1,12 +1,31 @@
+/**
+  * @file
+  * @author Gabriel Formica <gabrielformica93@gmail.com>
+  * @author Melecio Ponte <pontezambrano@gmail.com>
+  *
+  * @section Description
+  *
+  * Solve problem 3
+  */
+
 #include <cstdio>
 #include <vector>
 #include <algorithm>
 using namespace std;
 
-typedef pair<int, int> ii;
-typedef vector<ii> vii;
+/** Defining some types */
+typedef pair<int, int> task;
+typedef vector<task> vii;
+/******************************/
 
-bool compare(ii a, ii b) { return (a.second < b.second); }
+/**
+  * Tells if a should go before b 
+  * @param 'a' : task a 
+  * @param 'b' : task b
+  * @return true, if a ends before b
+  *         false, in any other case
+  */
+bool compare(task a, task b) { return (a.second < b.second); }
 
 int main(void) {
     int t;
@@ -18,8 +37,9 @@ int main(void) {
         while (nt--) {
             int a, b;
             scanf("%d %d", &a, &b);
-            tasks.push_back(ii(a,b));
+            tasks.push_back(task(a,b));
         }
+        //sorting tasks by selecting those with lesser finish time
         sort(tasks.begin(), tasks.end(), &compare);
         int last = 0, counter = 0;
         for (int i = 0; i < tasks.size(); i++) { 
