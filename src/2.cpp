@@ -18,10 +18,10 @@ class UnionFind {
              Mapping table;
     public:
         UnionFind(int n) {
-            rep.assign(n, 0);
-            for (int i = 0; i < n; i++) rep[i] = i;
-            sizeOf.assign(n, 1);
-            rank.assign(n, 0);
+            rep.assign(n+1, 0);
+            for (int i = 0; i < n+1; i++) rep[i] = i;
+            sizeOf.assign(n+1, 1);
+            rank.assign(n+1, 0);
             numSets = n;
         }
         void unionSets(int i, int j) {
@@ -58,19 +58,15 @@ int query(int N, Mapping table) {
     // The number of all possible edges in a graph given N nodes is determined
     // by the
     int discon = (N*(N-1))/2;
-
     for (mit it = table.begin(); it != table.end(); it++) {
         int nodes = it->second;
         int edges = nodes*(nodes - 1)/2;
         discon -= edges;
     }
-
     return discon;
 }
 
-void remove(int index, ve &edges) {
-    edges.erase(edges.begin()+index-1);
-}
+void remove(int index, ve &edges) { edges.erase(edges.begin()+index-1); }
 
 Mapping process_edges(ve edges, int N) {
    UnionFind set(N);
@@ -131,4 +127,3 @@ int main(void) {
         if (cases >= 1) printf("\n");
     }
 }
-
