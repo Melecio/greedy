@@ -30,10 +30,12 @@ bool compare(task a, task b) { return (a.second < b.second); }
 int main(void) {
     int t;
     scanf("%d", &t);
+
     while (t--) {
         vii tasks;
         int nt;      //Number of tasks
         scanf("%d", &nt);
+
         while (nt--) {
             int a, b;
             scanf("%d %d", &a, &b);
@@ -42,6 +44,7 @@ int main(void) {
         //sorting tasks by selecting those with lesser finish time
         sort(tasks.begin(), tasks.end(), &compare);
         int last = 0, counter = 0;
+
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks[i].first >= last) {
                 counter++;
@@ -50,5 +53,6 @@ int main(void) {
         }
         printf("%d\n", counter);
     }
+
     return 0;
 }
