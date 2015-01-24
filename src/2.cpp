@@ -49,18 +49,22 @@ class UnionFind {
             if (! isSameSet(i, j)) {
                 numSets--;
                 int x = findSet(i), y = findSet(j);
+
                 if (rank[x] > rank[y]) {
                     rep[y] = x;
                     sizeOf[x] += sizeOf[y];
                     table[x] = sizeOf[x];
+
                     if (table.find(y) != table.end())
                         table.erase(table.find(y));
                 } else {
                     rep[x] = y;
                     sizeOf[y] += sizeOf[x];
+
                     if (rank[x] == rank[y]) rank[y]++;
 
                     table[y] = sizeOf[y];
+
                     if (table.find(x) != table.end())
                         table.erase(table.find(x));
                 }
@@ -86,23 +90,25 @@ class UnionFind {
         int getNumSets() { return numSets; }
          /**
            * Gets table
-           * @return table 
+           * @return table
            */
         Mapping getTable() { return table; }
 };
 
 /**
-   * Gets how many pairs of nodes are disconnected 
-   * @param 'N': number of nodes 
+   * Gets how many pairs of nodes are disconnected
+   * @param 'N': number of nodes
    * @return number of pairs of nodes
    */
 int query(int N, Mapping table) {
     int discon = (N*(N-1))/2;
+
     for (mit it = table.begin(); it != table.end(); it++) {
         int nodes = it->second;
         int edges = nodes*(nodes - 1)/2;
         discon -= edges;
     }
+
     return discon;
 }
 
@@ -115,17 +121,19 @@ void remove(int index, ve &edges) { edges.erase(edges.begin()+index-1); }
 
 /**
   * Gets the size of every connected component
-  * @param 'edges': list of edges 
+  * @param 'edges': list of edges
   * @param 'N'    : number of nodes
-  * @return a map that has the size of every disjoint set 
+  * @return a map that has the size of every disjoint set
   *         (that are greater that one)
   */
 Mapping process_edges(ve edges, int N) {
    UnionFind set(N);
+
    for (int i = 0; i < edges.size(); ++i) {
-        if (! set.isSameSet(edges[i].first, edges[i].second)) 
+        if (! set.isSameSet(edges[i].first, edges[i].second))
             set.unionSets(edges[i].first, edges[i].second);
    }
+
    return set.getTable();
 }
 
@@ -134,23 +142,31 @@ int main(void) {
     int cases;
     scanf("%d", &cases);
     getchar();  // Ignore blank line
+
     while (cases--) {
         getchar();  // Ignore blank line
+        // Number of offices
         int offs;
         scanf("%d", &offs);
         ve adylist;
+
         for (int i = 0; i < offs-1; ++i) {
+            // Edge between x and y
             int x, y;
             scanf("%d %d", &x, &y);
             adylist.push_back(pair<int, int>(x, y));
         }
+
         int queries;
         scanf("%d", &queries);
         getchar();
+
         while (queries--) {
             char q;
             scanf("%c", &q);
+
             if (q == 'R') {
+                // Edge to be deleted
                 int del;
                 scanf("%d", &del);
                 remove(del, adylist);
@@ -161,6 +177,7 @@ int main(void) {
             }
             getchar();
         }
-        if (cases >= 1) printf("\n"); 
+
+        if (cases >= 1) printf("\n");
     }
 }
