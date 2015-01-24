@@ -99,8 +99,8 @@ double euclidean(pair<Node, Node> e) {
   * @param 'R'     : maximum value of meters for standard lines
   * @param 'M'     : number of modems
   */
-pair<double, double> kruskal(ve &edges, Mapping &table, int N, int R, int M) {
-    int A = 0, B = 0;   //meters of standard and special lines, respectively
+pair<double, double> kruskal(ve edges, Mapping table, int N, int R, int M) {
+    double A = 0, B = 0;   //meters of standard and special lines, respectively
     UnionFind set(N);
     for (int i = 0; i < edges.size(); i++) {
         //checking if there are M connected components
@@ -111,7 +111,7 @@ pair<double, double> kruskal(ve &edges, Mapping &table, int N, int R, int M) {
         int v2 = table[n2];
         if (! set.isSameSet(v1, v2)) {
             set.unionSets(v1, v2);
-            int w = edges[i].first;
+            double w = edges[i].first;
             if (w <= R) A += w;
             else B += w;
         }
