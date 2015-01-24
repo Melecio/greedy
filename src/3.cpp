@@ -19,8 +19,8 @@ typedef vector<task> vii;
 /******************************/
 
 /**
-  * Tells if a should go before b 
-  * @param 'a' : task a 
+  * Tells if a should go before b
+  * @param 'a' : task a
   * @param 'b' : task b
   * @return true, if a ends before b
   *         false, in any other case
@@ -42,9 +42,9 @@ int main(void) {
         //sorting tasks by selecting those with lesser finish time
         sort(tasks.begin(), tasks.end(), &compare);
         int last = 0, counter = 0;
-        for (int i = 0; i < tasks.size(); i++) { 
+        for (int i = 0; i < tasks.size(); i++) {
             if (tasks[i].first >= last) {
-                counter++; 
+                counter++;
                 last = tasks[i].second;
             }
         }

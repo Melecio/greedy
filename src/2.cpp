@@ -86,14 +86,14 @@ class UnionFind {
         int getNumSets() { return numSets; }
          /**
            * Gets table
-           * @return table 
+           * @return table
            */
         Mapping getTable() { return table; }
 };
 
 /**
-   * Gets how many pairs of nodes are disconnected 
-   * @param 'N': number of nodes 
+   * Gets how many pairs of nodes are disconnected
+   * @param 'N': number of nodes
    * @return number of pairs of nodes
    */
 int query(int N, Mapping table) {
@@ -115,15 +115,15 @@ void remove(int index, ve &edges) { edges.erase(edges.begin()+index-1); }
 
 /**
   * Gets the size of every connected component
-  * @param 'edges': list of edges 
+  * @param 'edges': list of edges
   * @param 'N'    : number of nodes
-  * @return a map that has the size of every disjoint set 
+  * @return a map that has the size of every disjoint set
   *         (that are greater that one)
   */
 Mapping process_edges(ve edges, int N) {
    UnionFind set(N);
    for (int i = 0; i < edges.size(); ++i) {
-        if (! set.isSameSet(edges[i].first, edges[i].second)) 
+        if (! set.isSameSet(edges[i].first, edges[i].second))
             set.unionSets(edges[i].first, edges[i].second);
    }
    return set.getTable();
@@ -161,6 +161,6 @@ int main(void) {
             }
             getchar();
         }
-        if (cases >= 1) printf("\n"); 
+        if (cases >= 1) printf("\n");
     }
 }
